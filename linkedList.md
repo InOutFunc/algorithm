@@ -68,3 +68,57 @@ public:
 };
 ```
 
+## 138. Copy List with Random Pointer
+
+```cpp
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+    
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
+*/
+
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        if (head == nullptr) {
+            return nullptr;
+        }
+        Node* cur = head;
+        while (cur != nullptr) {
+            Node* curCopy = new Node(cur->val);
+            curCopy->next = cur->next;
+            cur->next = curCopy;
+            cur = curCopy->next;
+        }
+        
+        cur = head;
+        while (cur != nullptr) {
+            if (cur->random != nullptr) {
+                cur->next->random = cur->random->next;
+            }
+            cur = cur->next->next;
+        }
+        
+        Node* res = head->next;
+        cur = head;
+        while (cur != nullptr && cur->next != nullptr) {
+            Node* next = cur->next;
+            cur->next = next->next;
+            cur = next;
+        }
+        
+        return res;
+    }
+};
+```
+
