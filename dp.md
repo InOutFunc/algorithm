@@ -297,3 +297,49 @@ public:
 };
 ````
 
+## 139. Word Break
+
+```cpp
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        unordered_set<string> wordSet(wordDict.begin(), wordDict.end());
+        vector<bool> dp(s.size() + 1);
+        dp[0] = true;
+        
+        for (int i = 1; i < dp.size(); i++) {
+            for (int j = 0; j < i; j++) {
+                dp[i] = (wordSet.find(s.substr(j, i - j)) != wordSet.end() && dp[j]);
+                if (dp[i]) {
+                    break;
+                }
+            }
+        }
+        
+        return dp.back();
+    }
+};
+```
+
+## 152. Maximum Product Subarray
+
+```cpp
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        int res = nums[0];
+        int curMax = nums[0];
+        int curMin = nums[0];
+        for (int i = 1; i < nums.size(); i++) {
+            if (nums[i] < 0) {
+                swap(curMax, curMin);
+            }
+            curMax = max(nums[i], curMax * nums[i]);
+            curMin = min(nums[i], curMin * nums[i]);
+            res = max(res, curMax);
+        }
+        return res;
+    }
+};
+```
+
