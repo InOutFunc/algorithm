@@ -343,3 +343,53 @@ public:
 };
 ```
 
+## 198 House Robber
+
+```cpp
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        if (nums.empty()) {
+            return 0;
+        }
+        vector<int> dp(nums.size());
+        dp[0] = nums[0];
+        if (nums.size() == 1) {
+            return dp[0];
+        }
+        dp[1] = nums[1];
+        if (nums.size() == 2) {
+            return max(dp[0], dp[1]);
+        }
+        dp[2] = max(dp[1], dp[0] + nums[2]);
+        for (int i = 3; i < nums.size(); i++) {
+            dp[i] = max(dp[i - 2], dp[i - 3]) + nums[i];
+        }
+        return *max_element(dp.begin(), dp.end());
+    }
+};
+```
+
+## 221. Maximal Square
+
+```cpp
+class Solution {
+public:
+    int maximalSquare(vector<vector<char>>& matrix) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1));
+        int res = 0;
+        for (int i = 1; i < m + 1; i++) {
+            for (int j = 1; j < n + 1; j++) {
+                if (matrix[i - 1][j - 1] != '0') {
+                    dp[i][j] = min(dp[i - 1][j - 1], min(dp[i][j - 1], dp[i - 1][j])) + 1;
+                    res = max(res, dp[i][j] * dp[i][j]);
+                }
+            }
+        }
+        return res;
+    }
+};
+```
+

@@ -293,3 +293,71 @@ private:
 };
 ```
 
+## 226. Invert Binary Tree
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        if (root == nullptr) {
+            return nullptr;
+        }
+        TreeNode* tmp = root->left;
+        root->left = invertTree(root->right);
+        root->right = invertTree(tmp);
+        return root;
+    }
+};
+```
+
+## 230. Kth Smallest Element in a BST
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int kthSmallest(TreeNode* root, int k) {
+        int res = 0;
+        divide(root, k, res);
+        return res;
+    }
+private:
+    void divide(TreeNode* root, int& k, int& res)
+    {
+        if (root == nullptr) {
+            return;
+        }
+        if (k < 1) {
+            return;
+        }
+        divide(root->left, k, res);
+        if (k-- == 1) {
+            res = root->val;
+            return;
+        }
+        divide(root->right, k, res);
+    }
+};
+```
+

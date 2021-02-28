@@ -49,3 +49,40 @@ private:
 };
 ```
 
+## 215. Kth Largest Element in an Array
+
+```cpp
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        k = nums.size() - k;
+        int l = 0;
+        int r = nums.size() - 1;
+        while (l < r) {
+            int pivot = partition(nums, l, r);
+            if (pivot == k) {
+                return nums[k];
+            } else if (pivot > k) {
+                r = pivot - 1;
+            } else {
+                l = pivot + 1;
+            }
+        }
+        return nums[l];
+    }
+private:
+    int partition(vector<int>& nums, int l, int r)
+    {
+        int i = l;
+        for (int j = l; j < r; j++) {
+            if (nums[j] < nums[r]) {
+                swap(nums[i], nums[j]);
+                i++;
+            }
+        }
+        swap(nums[i], nums[r]);
+        return i;
+    }
+};
+```
+
