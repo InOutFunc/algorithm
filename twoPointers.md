@@ -198,3 +198,31 @@ public:
 };
 ```
 
+## 287. Find the Duplicate Number
+
+```cpp
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int slow = nums[0];
+        int fast = nums[0];
+        while (fast < nums.size() && nums[fast] < nums.size()) {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+            if (slow == fast) {
+                break;
+            }
+        }
+        if (fast == nums.size() || nums[fast] == nums.size()) {
+            return -1;
+        }
+        fast = nums[0];
+        while (fast != slow) {
+            fast = nums[fast];
+            slow = nums[slow];
+        }
+        return slow;
+    }
+};
+```
+

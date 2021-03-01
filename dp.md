@@ -393,3 +393,67 @@ public:
 };
 ```
 
+## 238. Product of Array Except Self
+
+```cpp
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        vector<int> res(nums.size());
+        res[0] = 1;
+        for (int i = 1; i < nums.size(); i++) {
+            res[i] = res[i - 1] * nums[i - 1];
+        }
+        for (int right = 1, j = nums.size() - 1; j >= 0; j--) {
+            res[j] = res[j] * right;
+            right *= nums[j];
+        }
+        return res;
+    }
+};
+```
+
+## 279. Perfect Squares
+
+```cpp
+class Solution {
+public:
+    int numSquares(int n) {
+        vector<int> dp(n + 1, INT_MAX);
+        dp[0] = 0;
+        for (int i = 1; i < n + 1; i++) {
+            for (int j = 1; j * j <= i; j++) {
+                dp[i] = min(dp[i], dp[i - j * j] + 1);
+            }
+        }
+        return dp[n];
+    }
+};
+```
+
+## 309. Best Time to Buy and Sell Stock with Cooldown
+
+```cpp
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        if (prices.empty()) {
+            return 0;
+        }
+        int n = prices.size();
+        vector<int> idle(n);
+        vector<int> hold(n);
+        vector<int> justSold(n);
+        idle[0] = 0;
+        hold[0] = -prices[0];
+        justSold[0] = 0;
+        for (int i = 1; i < n; i++) {
+            idle[i] = max(idle[i - 1], justSold[i - 1]);
+            hold[i] = max(hold[i - 1], idle[i - 1] - prices[i]);
+            justSold[i] = hold[i - 1] + prices[i];
+        }
+        return max(idle[n - 1], justSold[n - 1]);
+    }
+};
+```
+

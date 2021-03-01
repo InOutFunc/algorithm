@@ -361,3 +361,94 @@ private:
 };
 ```
 
+## 236. Lowest Common Ancestor of a Binary Tree
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (root == nullptr) {
+            return nullptr;
+        }
+        if (root == p || root == q) {
+            return root;
+        }
+        TreeNode* left = lowestCommonAncestor(root->left, p, q);
+        TreeNode* right = lowestCommonAncestor(root->right, p, q);
+        if (left != nullptr && right != nullptr) {
+            return root;
+        }
+        if (left == nullptr) {
+            return right;
+        }
+        return left;
+    }
+};
+```
+
+## 297. Serialize and Deserialize Binary Tree
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Codec {
+public:
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        ostringstream oss;
+        seDivide(root, oss);
+        return oss.str();
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        istringstream iss(data);
+        return deDivide(iss);
+    }
+private:
+    void seDivide(TreeNode* root, ostringstream& oss)
+    {
+        if (root == nullptr) {
+            oss << '#' << ' ';
+            return;
+        }
+        oss << root->val << ' ';
+        seDivide(root->left, oss);
+        seDivide(root->right, oss);
+    }
+    TreeNode* deDivide(istringstream& iss)
+    {
+        string tmp;
+        iss >> tmp;
+        if (tmp == "#") {
+            return nullptr;
+        }
+        TreeNode* root = new TreeNode(stoi(tmp));
+        root->left = deDivide(iss);
+        root->right = deDivide(iss);
+        return root;
+    }
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec ser, deser;
+// TreeNode* ans = deser.deserialize(ser.serialize(root));
+```
+
