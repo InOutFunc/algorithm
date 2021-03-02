@@ -64,3 +64,41 @@ public:
 };
 ```
 
+## 394. Decode String
+
+```cpp
+class Solution {
+public:
+    string decodeString(string s) {
+        string cur;
+        stack<string> tmpStr;
+        int count;
+        stack<int> tmpCnt;
+        for (char ch : s) {
+            if (isdigit(ch)) {
+                count = count * 10 + (ch - '0');
+            } else if (ch == '[') {
+                tmpStr.push(cur);
+                cur.clear();
+                tmpCnt.push(count);
+                count = 0;
+            } else if (ch == ']') {
+                string pre = tmpStr.top();
+                tmpStr.pop();
+                int tmp = tmpCnt.top();
+                tmpCnt.pop();
+                while (tmp > 0) {
+                    pre += cur;
+                    tmp--;
+                }
+                cur = pre;
+            } else {
+                cur += string(1, ch);
+            }
+        }
+        
+        return cur;
+    }
+};
+```
+

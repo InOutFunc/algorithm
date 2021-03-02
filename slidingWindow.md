@@ -48,3 +48,45 @@ public:
 };
 ```
 
+## 438. Find All Anagrams in a String
+
+```cpp
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        unordered_map<char, int> window;
+        for (char ch : p) {
+            window[ch]++;
+        }
+        int l = 0;
+        int r = 0;
+        int counter = window.size();
+        vector<int> res;
+        while (r < s.size()) {
+            if (window.find(s[r]) == window.end()) {
+                r++;
+                continue;
+            }
+            if (window[s[r]]-- == 1) {
+                counter--;
+            }
+            while (counter == 0) {
+                if (r - l + 1 == p.size()) {
+                    res.push_back(l);
+                }
+                if (window.find(s[l]) == window.end()) {
+                    l++;
+                    continue;
+                }
+                if (window[s[l]]++ == 0) {
+                    counter++;
+                }
+                l++;
+            }
+            r++;
+        }
+        return res;
+    }
+};
+```
+

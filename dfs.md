@@ -452,3 +452,105 @@ private:
 // TreeNode* ans = deser.deserialize(ser.serialize(root));
 ```
 
+## 337. House Robber III
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int rob(TreeNode* root) {
+        vector<int> res = divide(root);
+        return max(res[0], res[1]);
+    }
+private:
+    vector<int> divide(TreeNode* root)
+    {
+        if (root == nullptr) {
+            return {0, 0};
+        }
+        vector<int> left = divide(root->left);
+        vector<int> right = divide(root->right);
+        vector<int> res(2);
+        res[0] = max(left[0], left[1]) + max(right[0], right[1]);
+        res[1] = left[0] + right[0] + root->val;
+        return res;
+    }
+};
+```
+
+## 543. Diameter of Binary Tree
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int diameterOfBinaryTree(TreeNode* root) {
+        int res = 0;
+        divide(root, res);
+        return res;
+    }
+private:
+    int divide(TreeNode* root, int& res)
+    {
+        if (root == nullptr) {
+            return 0;
+        }
+        int left = divide(root->left, res);
+        int right = divide(root->right, res);
+        res = max(res, left + right);
+        return max(left, right) + 1;
+    }
+};
+```
+
+## 617. Merge Two Binary Trees
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* mergeTrees(TreeNode* root1, TreeNode* root2) {
+        if (root1 == nullptr) {
+            return root2;
+        }
+        if (root2 == nullptr) {
+            return root1;
+        }
+        TreeNode* root = new TreeNode(root1->val + root2->val);
+        root->left = mergeTrees(root1->left, root2->left);
+        root->right = mergeTrees(root1->right, root2->right);
+        return root;
+    }
+};
+```
+

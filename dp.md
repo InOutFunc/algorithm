@@ -457,3 +457,36 @@ public:
 };
 ```
 
+## 647. Palindromic Substrings
+
+```cpp
+class Solution {
+public:
+    int countSubstrings(string s) {
+        int n = s.size();
+        vector<vector<bool>> dp(n, vector<bool>(n));
+        for (int i = 0; i < n; i++) {
+            dp[i][i] = true;
+        }
+        for (int i = 0; i < n - 1; i++) {
+            dp[i][i + 1] = (s[i] == s[i + 1]);
+        }
+        for (int k = 3; k <= n; k++) {
+            for (int i = 0; i <= n - k; i++) {
+                dp[i][i + k - 1] = dp[i + 1][i + k - 2] && (s[i] == s[i + k - 1]);
+            }
+        }
+        
+        int res = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n ;j++) {
+                if (dp[i][j]) {
+                    res++;
+                }
+            }
+        }
+        return res;
+    }
+};
+```
+
