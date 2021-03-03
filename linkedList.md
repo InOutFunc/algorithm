@@ -227,3 +227,34 @@ private:
 };
 ```
 
+## jz3 输入一个链表，按链表从尾到头的顺序返回一个ArrayList
+
+```cpp
+/**
+*  struct ListNode {
+*        int val;
+*        struct ListNode *next;
+*        ListNode(int x) :
+*              val(x), next(NULL) {
+*        }
+*  };
+*/
+class Solution {
+public:
+    vector<int> printListFromTailToHead(ListNode* head) {
+        vector<int> res;
+        divide(head, res);
+        return res;
+    }
+private:
+    void divide(ListNode* head, vector<int>& res)
+    {
+        if (head == nullptr) {
+            return;
+        }
+        divide(head->next, res);
+        res.push_back(head->val);
+    }
+};
+```
+

@@ -126,3 +126,26 @@ public:
 };
 ```
 
+## jz6 输出旋转数组的最小元素
+
+```cpp
+class Solution {
+public:
+    int minNumberInRotateArray(vector<int> rotateArray) {
+        int l = 0;
+        int r = rotateArray.size() - 1;
+        while (l < r) {
+            int mid = l + (r - l) / 2;
+            if (rotateArray[mid] < rotateArray[r]) {
+                r = mid;
+            } else if (rotateArray[mid] > rotateArray[r]) {
+                l = l + 1;
+            } else {
+                r--;
+            }
+        }
+        return rotateArray[l];
+    }
+};
+```
+
