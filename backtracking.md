@@ -206,3 +206,92 @@ private:
 };
 ```
 
+## jz24 二叉树中结点值的和为输入整数的所有路径
+
+```cpp
+/*
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+	TreeNode(int x) :
+			val(x), left(NULL), right(NULL) {
+	}
+};*/
+class Solution {
+public:
+    vector<vector<int> > FindPath(TreeNode* root,int expectNumber) {
+        vector<vector<int>> res;
+        divide(root, expectNumber, {}, res);
+        return res;
+    }
+    
+private:
+    void divide(TreeNode* root, int n, vector<int> cur, vector<vector<int>>& res)
+    {
+        if (root == nullptr) {
+            return;
+        }
+        if (n < 0) {
+            return;
+        }
+        int val = root->val;
+        if (val == n && root->left == nullptr && root->right == nullptr) {
+            cur.push_back(val);
+            res.push_back(cur);
+            return;
+        }
+        cur.push_back(val);
+        divide(root->left, n - val, cur, res);
+        divide(root->right, n - val, cur, res);
+    }
+};
+```
+
+## jz27 按字典序打印出该字符串中字符的所有排列
+
+```cpp
+class Solution {
+public:
+    vector<string> Permutation(string str) {
+        sort(str.begin(), str.end());
+        string cur;
+        vector<bool> visited(str.size());
+        vector<string> res;
+        divide(str, cur, res, visited);
+        return res;
+    }
+    
+private:
+    void divide(string str, string& cur, vector<string>& res, vector<bool>& visited)
+    {
+        if (cur.size() == str.size()) {
+            res.push_back(cur);
+            return;
+        }
+        for (int i = 0; i < str.size(); i++) {
+            if (visited[i]) {
+                continue;
+            }
+            if (i > 0 && str[i] == str[i - 1] && !visited[i - 1]) {
+                continue;
+            }
+            cur.push_back(str[i]);
+            visited[i] = true;
+            divide(str, cur, res, visited);
+            visited[i] = false;
+            cur.pop_back();
+        }
+        
+    }
+};
+
+
+/*
+abc
+
+
+
+*/
+```
+

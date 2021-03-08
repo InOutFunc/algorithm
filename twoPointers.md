@@ -226,3 +226,43 @@ public:
 };
 ```
 
+## jz14 输出该链表中倒数第k个结点
+
+```cpp
+/**
+ * struct ListNode {
+ *	int val;
+ *	struct ListNode *next;
+ *	ListNode(int x) : val(x), next(nullptr) {}
+ * };
+ */
+class Solution {
+public:
+    /**
+     * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+     *
+     * 
+     * @param pHead ListNode类 
+     * @param k int整型 
+     * @return ListNode类
+     */
+    ListNode* FindKthToTail(ListNode* pHead, int k) {
+        // write code here
+        ListNode* slow = pHead;
+        ListNode* fast = pHead;
+        while (k > 0) {
+            if (fast == nullptr) {
+                return nullptr;
+            }
+            fast = fast->next;
+            k--;
+        }
+        while (fast != nullptr) {
+            slow = slow->next;
+            fast = fast->next;
+        }
+        return slow;
+    }
+};
+```
+

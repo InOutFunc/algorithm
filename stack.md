@@ -130,3 +130,55 @@ private:
 };
 ```
 
+## jz21 请判断第二个序列是否可能为该栈的弹出顺序
+
+```cpp
+class Solution {
+public:
+    bool IsPopOrder(vector<int> pushV,vector<int> popV) {
+        stack<int> st;
+        int index = 0;
+        for (int i = 0; i < pushV.size(); i++) {
+            st.push(pushV[i]);
+            while (!st.empty() && st.top() == popV[index]) {
+                st.pop();
+                index++;
+            }
+        }
+        
+        return st.empty();
+    }
+};
+```
+
+## jz20 能够得到栈中所含最小元素的min函数
+
+```cpp
+class Solution {
+public:
+    void push(int value) {
+        st1.push(value);
+        if (st2.empty() || value <= st2.top()) {
+            st2.push(value);
+        }
+    }
+    void pop() {
+
+        if (st2.top() == st1.top()) {
+            st2.pop();
+        }
+        st1.pop();
+    }
+    int top() {
+        return st1.top();
+    }
+    int min() {
+        return st2.top();
+    }
+
+private:
+    stack<int> st1;
+    stack<int> st2;
+};
+```
+

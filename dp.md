@@ -489,3 +489,37 @@ public:
     }
 };
 ```
+
+## jz33 把只包含质因子2、3和5的数称作丑数
+
+```cpp
+class Solution {
+public:
+    int GetUglyNumber_Solution(int index) {
+        if (index < 1) {
+            return 0;
+        }
+        vector<int> nums;
+        nums.push_back(1);
+        int t2 = 0;
+        int t3 = 0;
+        int t5 = 0;
+        while (--index > 0) {
+            int val = min(nums[t2] * 2, min(nums[t3] * 3, nums[t5] * 5));
+            nums.push_back(val);
+            if (nums[t2] * 2 == val) {
+                t2++;
+            }
+            if (nums[t3] * 3 == val) {
+                t3++;
+            }
+            if (nums[t5] * 5 == val) {
+                t5++;
+            }
+        }
+        
+        return nums.back();
+    }
+};
+```
+

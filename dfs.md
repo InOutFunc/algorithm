@@ -554,3 +554,152 @@ public:
 };
 ```
 
+## jz17 判断B是不是A的子结构
+
+```cpp
+/*
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+	TreeNode(int x) :
+			val(x), left(NULL), right(NULL) {
+	}
+};*/
+class Solution {
+public:
+    bool HasSubtree(TreeNode* pRoot1, TreeNode* pRoot2)
+    {
+        if (pRoot2 == nullptr || pRoot1 == nullptr) {
+            return false;
+        }
+        if (IsSubtree(pRoot1, pRoot2)) {
+            return true;
+        }
+        return IsSubtree(pRoot1->left, pRoot2) || IsSubtree(pRoot1->right, pRoot2);
+    }
+    
+private:
+    bool IsSubtree(TreeNode* p1, TreeNode* p2)
+    {
+        if (p2 == nullptr) {
+            return true;
+        }
+        if (p1 == nullptr) {
+            return false;
+        }
+        return (p1->val == p2->val) && IsSubtree(p1->left, p2->left) && IsSubtree(p1->right, p2->right);
+    }
+};
+```
+
+## jz23 二叉搜索树的后序遍历的结果
+
+```cpp
+class Solution {
+public:
+    bool VerifySquenceOfBST(vector<int> sequence) {
+        if (sequence.empty()) {
+            return false;
+        }
+        return divide(sequence, 0, sequence.size() - 1);
+    }
+
+private:
+    bool divide(const vector<int>& s, int l, int r)
+    {
+        if (l >= r) {
+            return true;
+        }
+        int val = s[r];
+        int i = l;
+        while (i < r) {
+            if (s[i] >val) {
+                break;
+            }
+            i++;
+        }
+        for (int j = i; j < r; j++) {
+            if (s[j] < val) {
+                return false;
+            }
+        }
+        return divide(s, l, i - 1) && divide(s, i, r - 1);
+    }
+};
+```
+
+## jz26 将该二叉搜索树转换成一个排序的双向链表
+
+```cpp
+/*
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+	TreeNode(int x) :
+			val(x), left(NULL), right(NULL) {
+	}
+};*/
+class Solution {
+public:
+    TreeNode* Convert(TreeNode* root)
+    {
+        if (!root) return NULL;
+        TreeNode *head = NULL, *pre = NULL;
+        inorder(root, pre, head);
+//         pre->right = head;
+//         head->left = pre;
+        return head;
+    }
+    
+private:
+    void inorder(TreeNode* node, TreeNode*& pre, TreeNode*& head) {
+        if (!node) return;
+        inorder(node->left, pre, head);
+        if (!head) {
+            head = node;
+            pre = node;
+        } else {
+            pre->right = node;
+            node->left = pre;
+            pre = node;
+        }
+        inorder(node->right, pre, head);
+    }
+};
+```
+
+## jz39 判断该二叉树是否是平衡二叉树
+
+```cpp
+class Solution {
+public:
+    bool IsBalanced_Solution(TreeNode* pRoot) {
+        if (divide(pRoot) == -1) {
+            return false;
+        }
+        return true;
+    }
+private:
+    int divide(TreeNode* pRoot)
+    {
+        if (pRoot == nullptr) {
+            return 0;
+        }
+        int left = divide(pRoot->left);
+        if (left == -1) {
+            return -1;
+        }
+        int right = divide(pRoot->right);
+        if (right == -1) {
+            return -1;
+        }
+        if (abs(left - right) > 1) {
+            return -1;
+        }
+        return max(left, right) + 1;
+    }
+};
+```
+
